@@ -22,11 +22,15 @@ export default function RootLayout({
           crossOrigin=""
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body className="min-h-screen bg-neutral-50">
+        <div className="mx-auto max-w-7xl">
+          {children}
+        </div>
+      </body>
     </html>
   );
 }

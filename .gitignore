@@ -19,3 +19,7 @@ logs/
 # IDE
 .vscode/
 .idea/
+.windsurf/
+
+# Versionamento pnpm
+web/pnpm-lock.yaml
