@@ -36,10 +36,13 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="HarmonizaAi API", lifespan=lifespan)
 
-# Configura CORS para permitir chamadas do Next.js
+# Configura CORS para permitir chamadas do Next.js na Vercel
+frontend_url = os.getenv("FRONTEND_URL", "*")
+origins = [frontend_url] if frontend_url != "*" else ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Em produção num ambiente real você pode restringir ao domínio da Vercel
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
