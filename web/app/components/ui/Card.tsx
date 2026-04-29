@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { type HTMLAttributes, type ReactNode } from "react";
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
@@ -14,21 +13,16 @@ export function Card({
   className = "",
   ...props
 }: CardProps) {
+  const hoverClass = isHoverable
+    ? "transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)]"
+    : "";
+
   return (
-    <motion.div
-      whileHover={
-        isHoverable
-          ? {
-              y: -2,
-              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.12)",
-            }
-          : undefined
-      }
-      transition={{ duration: 0.2, ease: "easeOut" }}
-      className={`rounded-xl border border-neutral-200 bg-white p-4 shadow-resting ${className}`}
+    <div
+      className={`rounded-xl border border-neutral-200 bg-white p-4 shadow-resting ${hoverClass} ${className}`}
       {...props}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

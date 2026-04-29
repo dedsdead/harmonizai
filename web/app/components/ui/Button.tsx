@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { type ButtonHTMLAttributes, type ReactNode } from "react";
 
@@ -25,9 +24,9 @@ export function Button({
 
   const variants = {
     primary:
-      "bg-primary-600 text-white shadow-resting hover:bg-primary-700 hover:shadow-hover active:shadow-active",
+      "bg-primary-600 text-white shadow-resting hover:bg-primary-700 hover:shadow-hover hover:-translate-y-0.5 active:translate-y-0 active:shadow-active",
     secondary:
-      "bg-secondary-500 text-white shadow-resting hover:bg-secondary-600 hover:shadow-hover active:shadow-active",
+      "bg-secondary-500 text-white shadow-resting hover:bg-secondary-600 hover:shadow-hover hover:-translate-y-0.5 active:translate-y-0 active:shadow-active",
     ghost:
       "text-neutral-600 hover:text-primary-600 hover:bg-primary-50",
     outline:
@@ -43,9 +42,7 @@ export function Button({
   const isDisabled = disabled || isLoading;
 
   return (
-    <motion.button
-      whileHover={!isDisabled ? { y: -1 } : undefined}
-      whileTap={!isDisabled ? { y: 0 } : undefined}
+    <button
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${
         isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
       } ${className}`}
@@ -54,6 +51,6 @@ export function Button({
     >
       {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
       {children}
-    </motion.button>
+    </button>
   );
 }
