@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import { InstallPrompt } from "./components/InstallPrompt";
+import { ServiceWorkerRegister } from "./components/ServiceWorkerRegister";
 import "./globals.css";
 
 // Optimized fonts with next/font (automatic font-display: swap)
@@ -49,6 +51,13 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${inter.variable} ${playfair.variable} antialiased`}>
       <head>
+        {/* PWA Manifest */}
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#722F37" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="HarmonizAI" />
+        
         {/* Preconnect para APIs e recursos externos */}
         {/* Removido: preconnect para fonts (não necessário com next/font) */}
         <link rel="preconnect" href="https://harmonizai-api.up.railway.app" />
@@ -79,6 +88,8 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-neutral-50">
+        <ServiceWorkerRegister />
+        <InstallPrompt />
         <div className="mx-auto max-w-7xl">
           {children}
         </div>
