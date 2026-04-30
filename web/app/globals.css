@@ -72,9 +72,9 @@
   --color-wine-sparkling: #E2D893;
   --color-wine-rose: #FFB6C1;
 
-  /* Typography */
-  --font-display: "Playfair Display", Georgia, serif;
-  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  /* Typography - using next/font CSS variables */
+  --font-display: var(--font-playfair), Georgia, serif;
+  --font-body: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-body);
 
   /* Text scale (min 14px for accessibility) */
@@ -216,4 +216,37 @@ body {
 :focus-visible {
   outline: 2px solid var(--color-primary-300);
   outline-offset: 2px;
+}
+
+/* Button Ripple Effect - Material Design */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  width: 100px;
+  height: 100px;
+  margin-top: -50px;
+  margin-left: -50px;
+  pointer-events: none;
+  animation: ripple-animation 0.6s ease-out forwards;
+  z-index: -1;
+}
+
+@keyframes ripple-animation {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Reduced motion for ripple */
+@media (prefers-reduced-motion: reduce) {
+  .ripple {
+    animation: none !important;
+    display: none;
+  }
 }

@@ -3,17 +3,34 @@
 import { motion } from "framer-motion";
 import { Wine, UtensilsCrossed, Beef, Fish } from "lucide-react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "./ui/Button";
 import { Card } from "./ui/Card";
-import { WineList } from "./WineList";
+import { WineListSkeleton } from "./WineListSkeleton";
 import { fetchRecommendations, pingBackend, type Wine as WineType, type WineListState, type ApiResponse } from "../lib/wines";
+
+// Dynamic import do WineList para reduzir bundle inicial
+const WineList = dynamic(() => import("./WineList").then(mod => ({ default: mod.WineList })), {
+  ssr: false,
+  loading: () => <WineListSkeleton />,
+});
 
 const EXAMPLES = [
   { label: "Sushi", icon: Fish },
   { label: "Risoto", icon: UtensilsCrossed },
   { label: "Churrasco", icon: Beef },
   { label: "Salmão", icon: Fish },
+];
+
+const ROTATING_PLACEHOLDERS = [
+  "sushi variado",
+  "churrasco",
+  "risoto de cogumelos",
+  "salmão grelhado",
+  "pizza margherita",
+  "feijoada",
+  "tacos mexicanos",
 ];
 
 export default function Harmonizer() {
@@ -23,11 +40,60 @@ export default function Harmonizer() {
   const [recognizedDish, setRecognizedDish] = useState<ApiResponse["dish"]>(null);
   const [slowLoading, setSlowLoading] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
   const slowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  
+  // Rotating placeholder state
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
+  const [displayPlaceholder, setDisplayPlaceholder] = useState("");
+  const [isTyping, setIsTyping] = useState(true);
+  const [isInputFocused, setIsInputFocused] = useState(false);
 
+  // Ping backend on mount
   useEffect(() => {
     pingBackend();
   }, []);
+  
+  // Rotating placeholder effect
+  useEffect(() => {
+    if (isInputFocused || input.length > 0) {
+      setDisplayPlaceholder("");
+      return;
+    }
+
+    const currentText = ROTATING_PLACEHOLDERS[placeholderIndex];
+    
+    if (isTyping) {
+      // Typing phase
+      if (displayPlaceholder.length < currentText.length) {
+        const timeout = setTimeout(() => {
+          setDisplayPlaceholder(currentText.slice(0, displayPlaceholder.length + 1));
+        }, 100);
+        return () => clearTimeout(timeout);
+      } else {
+        // Finished typing, pause then start deleting
+        const timeout = setTimeout(() => {
+          setIsTyping(false);
+        }, 1500);
+        return () => clearTimeout(timeout);
+      }
+    } else {
+      // Deleting phase
+      if (displayPlaceholder.length > 0) {
+        const timeout = setTimeout(() => {
+          setDisplayPlaceholder(displayPlaceholder.slice(0, -1));
+        }, 50);
+        return () => clearTimeout(timeout);
+      } else {
+        // Finished deleting, move to next placeholder
+        const timeout = setTimeout(() => {
+          setPlaceholderIndex((prev) => (prev + 1) % ROTATING_PLACEHOLDERS.length);
+          setIsTyping(true);
+        }, 300);
+        return () => clearTimeout(timeout);
+      }
+    }
+  }, [displayPlaceholder, isTyping, placeholderIndex, isInputFocused, input]);
 
   const canSubmit = input.trim().length > 0 && listState !== "loading";
   const isPopulated = listState === "populated";
@@ -48,6 +114,12 @@ export default function Harmonizer() {
       setRecognizedDish(data.dish);
       setWines(data.wines);
       setListState("populated");
+      // Smooth scroll to results on mobile
+      setTimeout(() => {
+        if (window.innerWidth < 1024) {
+          resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 100);
     } catch (error) {
       console.error(error);
       setListState("error");
@@ -142,7 +214,9 @@ export default function Harmonizer() {
                     runSearch();
                   }
                 }}
-                placeholder="Descreva seu prato (ex: sushi variado, risoto de cogumelos...)"
+                onFocus={() => setIsInputFocused(true)}
+                onBlur={() => setIsInputFocused(false)}
+                placeholder={displayPlaceholder || "Descreva seu prato..."}
                 className="w-full resize-none border-0 bg-transparent text-base leading-relaxed text-neutral-900 outline-none placeholder:text-neutral-400"
               />
 
@@ -217,7 +291,7 @@ export default function Harmonizer() {
         </motion.section>
 
         {/* Results Section */}
-        <aside className="flex min-h-0 flex-1 flex-col lg:w-2/3">
+        <aside ref={resultsRef} className="flex min-h-0 flex-1 flex-col lg:w-2/3">
           <WineList state={listState} wines={wines} slowLoading={slowLoading} />
         </aside>
       </main>

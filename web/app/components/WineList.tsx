@@ -184,31 +184,44 @@ function WineCard({ state, wine }: { state: WineListState; wine?: Wine }) {
             </p>
             <div className="mt-1.5 flex flex-wrap gap-1">
               {wine.characteristics.slice(0, 3).map((char: string, idx: number) => (
-                <span key={idx} className="rounded bg-neutral-100 px-1.5 py-0.5 text-[10px] text-neutral-600">
+                <motion.span
+                  key={idx}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: idx * 0.1, duration: 0.2 }}
+                  className="rounded bg-neutral-100 px-1.5 py-0.5 text-[10px] text-neutral-600 transition-colors hover:bg-neutral-200"
+                >
                   {char}
-                </span>
+                </motion.span>
               ))}
             </div>
             <div className="mt-auto flex items-center justify-between gap-2">
               <ScoreBadge score={wine.score.total_score} />
               <div className="flex items-center gap-2">
-                <a
+                <motion.a
                   href={wine.vivino_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-0.5 text-xs font-medium text-neutral-400 transition hover:text-primary-600"
+                  aria-label={`Ver ${wine.name} no Vivino`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center gap-0.5 rounded px-1.5 py-0.5 text-xs font-medium text-neutral-400 transition-all hover:bg-primary-50 hover:text-primary-600"
                 >
+                  <ExternalLink className="h-3 w-3" aria-hidden="true" />
                   Vivino
-                  <ExternalLink className="h-3 w-3" />
-                </a>
-                <a
+                </motion.a>
+                <motion.a
                   href={wine.shop_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-0.5 text-xs font-medium text-neutral-400 transition hover:text-primary-600"
+                  aria-label={`Comprar ${wine.name}`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center gap-0.5 rounded px-1.5 py-0.5 text-xs font-medium text-neutral-400 transition-all hover:bg-secondary-50 hover:text-secondary-600"
                 >
-                  <ShoppingCart className="h-3 w-3" />
-                </a>
+                  <ShoppingCart className="h-3 w-3" aria-hidden="true" />
+                  Comprar
+                </motion.a>
               </div>
             </div>
           </div>

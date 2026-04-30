@@ -1,10 +1,44 @@
 import type { Metadata } from "next";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
+
+// Optimized fonts with next/font (automatic font-display: swap)
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-playfair",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "HarmonizAI — Descubra o vinho ideal para sua refeição",
   description:
-    "Digite o que você vai comer e receba recomendações de vinhos harmonizados com inteligência artificial.",
+    "Digite o que você vai comer e receba recomendações de vinhos harmonizados com inteligência artificial. Encontre o vinho perfeito para sushi, churrasco, risoto e muito mais.",
+  keywords: ["vinho", "harmonização", "sommelier", "sushi", "churrasco", "jantar", "wine pairing"],
+  authors: [{ name: "HarmonizAI" }],
+  openGraph: {
+    title: "HarmonizAI — Descubra o vinho ideal",
+    description: "Receba recomendações de vinhos harmonizados com IA.",
+    type: "website",
+    locale: "pt_BR",
+    siteName: "HarmonizAI",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "HarmonizAI — Descubra o vinho ideal",
+    description: "Receba recomendações de vinhos harmonizados com IA.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -13,17 +47,35 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className="antialiased">
+    <html lang="pt-BR" className={`${inter.variable} ${playfair.variable} antialiased`}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin=""
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
+        {/* Preconnect para APIs e recursos externos */}
+        {/* Removido: preconnect para fonts (não necessário com next/font) */}
+        <link rel="preconnect" href="https://harmonizai-api.up.railway.app" />
+        <link rel="dns-prefetch" href="https://harmonizai-api.up.railway.app" />
+        
+        {/* Prefetch para warm-up da API connection */}
+        <link rel="prefetch" href="https://harmonizai-api.up.railway.app/health" as="fetch" crossOrigin="anonymous" />
+        
+        {/* JSON-LD Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              name: "HarmonizAI",
+              description: "Descubra o vinho ideal para sua refeição com inteligência artificial.",
+              url: "https://harmonizai.vercel.app",
+              applicationCategory: "FoodAndDrinkApplication",
+              operatingSystem: "Any",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "BRL",
+              },
+            }),
+          }}
         />
       </head>
       <body className="min-h-screen bg-neutral-50">

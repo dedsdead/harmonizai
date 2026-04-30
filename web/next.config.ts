@@ -1,7 +1,30 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Ensure trailing slashes for consistent routing
+  trailingSlash: true,
+  // Image optimization settings
+  images: {
+    unoptimized: true,
+  },
+  // Ensure proper output for Vercel
+  distDir: ".next",
+  // Compress output for better performance
+  compress: true,
+  // React strict mode for better debugging
+  reactStrictMode: true,
 };
 
-export default nextConfig;
+// Enable bundle analyzer when ANALYZE=true
+const shouldAnalyze = process.env.ANALYZE === "true";
+
+let config = nextConfig;
+if (shouldAnalyze) {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const withBundleAnalyzer = require("@next/bundle-analyzer")({
+    enabled: true,
+  });
+  config = withBundleAnalyzer(nextConfig);
+}
+
+export default config;

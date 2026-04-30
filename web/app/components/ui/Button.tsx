@@ -1,13 +1,20 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
-import { type ButtonHTMLAttributes, type ReactNode } from "react";
+import { type ButtonHTMLAttributes, type ReactNode, useRef, useState } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "ghost" | "outline";
   size?: "sm" | "md" | "lg";
   isLoading?: boolean;
   children: ReactNode;
+  disableRipple?: boolean;
+}
+
+interface RippleState {
+  x: number;
+  y: number;
+  id: number;
 }
 
 export function Button({
@@ -17,10 +24,15 @@ export function Button({
   children,
   className = "",
   disabled,
+  disableRipple = false,
   ...props
 }: ButtonProps) {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [ripples, setRipples] = useState<RippleState[]>([]);
+  const rippleIdRef = useRef(0);
+
   const baseStyles =
-    "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2";
+    "relative isolate inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2 overflow-hidden";
 
   const variants = {
     primary:
@@ -41,14 +53,59 @@ export function Button({
 
   const isDisabled = disabled || isLoading;
 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (disableRipple || isDisabled) {
+      props.onClick?.(e);
+      return;
+    }
+
+    const button = buttonRef.current;
+    if (!button) {
+      props.onClick?.(e);
+      return;
+    }
+
+    const rect = button.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const newRipple: RippleState = {
+      x,
+      y,
+      id: rippleIdRef.current++,
+    };
+
+    setRipples((prev) => [...prev, newRipple]);
+
+    // Remove ripple after animation
+    setTimeout(() => {
+      setRipples((prev) => prev.filter((r) => r.id !== newRipple.id));
+    }, 600);
+
+    props.onClick?.(e);
+  };
+
   return (
     <button
+      ref={buttonRef}
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${
         isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
       } ${className}`}
       disabled={isDisabled}
       {...props}
+      onClick={handleClick}
     >
+      {/* Ripple effects */}
+      {!disableRipple && !isDisabled && ripples.map((ripple) => (
+        <span
+          key={ripple.id}
+          className="ripple"
+          style={{
+            left: ripple.x,
+            top: ripple.y,
+          }}
+        />
+      ))}
       {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
       {children}
     </button>
