@@ -311,10 +311,10 @@ export default function Harmonizer() {
       </main>
 
       {/* Footer with Accessibility Link */}
-      <footer className="shrink-0 py-3 text-center text-xs text-[var(--color-ink-subtle)]">
+      <footer className="shrink-0 py-3 text-center text-xs text-[var(--color-ink-muted)]">
         <Link
           href="/acessibilidade"
-          className="hover:text-[var(--color-ink-muted)] hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+          className="hover:text-[var(--color-ink-dark)] hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
         >
           Declaração de Acessibilidade
         </Link>

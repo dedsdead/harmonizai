@@ -433,6 +433,24 @@ ticket: HARMONIZAI-ROADMAP-001
 
 ---
 
+### T6.5.2 — Correções WAVE + Lighthouse (Testes Automatizados) ✅
+**Data:** 2026-05-02
+
+**Problemas identificados:**
+1. **color-contrast**: Footer text (#a89c92 sobre #fef7f2) — contraste 2.52:1, precisa 4.5:1
+2. **heading-order**: `h3` "Pronto para harmonizar?" pulando hierarquia
+
+**Correções aplicadas:**
+- [x] `Harmonizer.tsx`: Cor de `text-[var(--color-ink-subtle)]` → `text-[var(--color-ink-muted)]`
+- [x] `Harmonizer.tsx`: Hover de `ink-muted` → `ink-dark` para contraste adequado
+- [x] `WineList.tsx`: `h3` → `h2` no EmptyState "Pronto para harmonizar?"
+
+**Resultados:**
+- WAVE: 10/10 (sem erros, sem alertas)
+- Lighthouse: Falhas de contraste e heading order resolvidas
+
+---
+
 ### T6.6 — Declaração de Acessibilidade (eMAG) ✅
 **Requisito eMAG:** Declaração de conformidade e canais de comunicação
 

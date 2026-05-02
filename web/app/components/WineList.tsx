@@ -346,9 +346,9 @@ function EmptyState() {
       <div className="mb-4 rounded-full bg-primary-50 p-4">
         <EmptyGlassIllustration className="h-16 w-16 text-primary-400" />
       </div>
-      <h3 className="font-display text-lg font-semibold text-ink">
+      <h2 className="font-display text-lg font-semibold text-ink">
         Pronto para harmonizar?
-      </h3>
+      </h2>
       <p className="mt-1 max-w-xs text-center text-sm text-ink-muted">
         Descreva sua refeição e descubra os vinhos perfeitos para acompanhar.
       </p>

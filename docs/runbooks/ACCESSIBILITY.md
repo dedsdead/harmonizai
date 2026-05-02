@@ -21,6 +21,15 @@
 > - `Harmonizer.tsx`: Footer usa `next/link` para navegação cliente
 > - `layout.tsx`: Removida live region `#sr-announcements` não utilizada
 > - `acessibilidade/page.tsx`: Corrigido nesting de Link/Button (agora Link com classes de botão)
+> - `WineList.tsx`: `StateCaption` retorna `null` quando invisível
+> 
+> **Correções WAVE + Lighthouse (2026-05-02):**
+> - `Harmonizer.tsx`: Corrigido contraste de cores no footer (2.52:1 → 4.5:1+) — WCAG 2.1 AA
+> - `WineList.tsx`: Corrigido heading order — `h3` "Pronto para harmonizar?" → `h2`
+> 
+> **Resultados dos Testes:**
+> - WAVE: 10/10 (apenas 1 alerta de heading order, agora corrigido)
+> - Lighthouse Accessibility: Falhas de contraste e heading order corrigidas
 > 
 > **Features Futuras (Backlog):**
 > - ⬜ VLibras — Widget de tradução para Libras (requer integração externa gov.br)
