@@ -7,8 +7,9 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  // Ensure proper output for Vercel
-  distDir: ".next",
+  // Static export for GitHub Pages / other static hosts
+  output: "export",
+  distDir: "out",
   // Compress output for better performance
   compress: true,
   // React strict mode for better debugging
