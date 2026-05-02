@@ -1,0 +1,25 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Environments
+venv/
+env/
+.env
+
+# Logs and databases
+logs/
+*.db
+*.sqlite3
+
+# IDE
+.vscode/
+.idea/
+.windsurf/
+
+# Versionamento pnpm
+web/pnpm-lock.yaml
