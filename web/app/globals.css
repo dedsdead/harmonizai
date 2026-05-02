@@ -250,3 +250,78 @@ body {
     display: none;
   }
 }
+
+/* ================================
+   Dark Mode Theme
+   ================================ */
+
+/* Dark mode color overrides */
+[data-theme="dark"] {
+  /* Surfaces - inverted for dark */
+  --color-surface: var(--color-neutral-950);
+  --color-card: var(--color-neutral-900);
+  --color-card-muted: var(--color-neutral-800);
+  
+  /* Text - inverted for dark */
+  --color-ink: var(--color-neutral-50);
+  --color-ink-muted: var(--color-neutral-400);
+  --color-ink-subtle: var(--color-neutral-500);
+  
+  /* Borders */
+  --color-border: var(--color-neutral-800);
+  --color-skeleton: var(--color-neutral-800);
+  
+  /* Shadows - lighter for dark backgrounds */
+  --shadow-resting: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-active: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-modal: 0 24px 48px rgba(0, 0, 0, 0.5);
+}
+
+/* Skeleton shimmer adjustment for dark */
+[data-theme="dark"] .skeleton-shimmer::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    transparent 100%
+  );
+}
+
+/* System preference detection (if no explicit theme set) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-surface: var(--color-neutral-950);
+    --color-card: var(--color-neutral-900);
+    --color-card-muted: var(--color-neutral-800);
+    --color-ink: var(--color-neutral-50);
+    --color-ink-muted: var(--color-neutral-400);
+    --color-ink-subtle: var(--color-neutral-500);
+    --color-border: var(--color-neutral-800);
+    --color-skeleton: var(--color-neutral-800);
+    --shadow-resting: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-active: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-modal: 0 24px 48px rgba(0, 0, 0, 0.5);
+  }
+  
+  :root:not([data-theme="light"]) .skeleton-shimmer::after {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      transparent 100%
+    );
+  }
+}
+
+/* Smooth theme transition */
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html *,
+html *::before,
+html *::after {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}

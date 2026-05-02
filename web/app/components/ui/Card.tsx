@@ -14,12 +14,12 @@ export function Card({
   ...props
 }: CardProps) {
   const hoverClass = isHoverable
-    ? "transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)]"
+    ? "transition-all duration-200 hover:-translate-y-0.5 hover:shadow-hover"
     : "";
 
   return (
     <div
-      className={`rounded-xl border border-neutral-200 bg-white p-4 shadow-resting ${hoverClass} ${className}`}
+      className={`rounded-xl border border-border bg-card p-4 shadow-resting ${hoverClass} ${className}`}
       {...props}
     >
       {children}

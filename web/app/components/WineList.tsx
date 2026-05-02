@@ -52,7 +52,7 @@ export function WineList({ state, wines = [], slowLoading = false }: WineListPro
         />
         <StateCaption
           visible={showNotFound}
-          icon={<Search className="h-4 w-4 text-neutral-400" />}
+          icon={<Search className="h-4 w-4 text-ink-subtle" />}
           text="Não reconheci o prato. Tente descrever de outra forma."
         />
         <StateCaption
@@ -105,7 +105,7 @@ function StateCaption({
   return (
     <div
       aria-hidden={!visible}
-      className={`absolute flex items-center gap-2 text-sm text-neutral-500 transition-opacity duration-300 ${
+      className={`absolute flex items-center gap-2 text-sm text-ink-muted transition-opacity duration-300 ${
         visible ? "opacity-100" : "pointer-events-none opacity-0"
       }`}
     >
@@ -121,7 +121,7 @@ function WineCard({ state, wine }: { state: WineListState; wine?: Wine }) {
   const skeletonClass = shimmer ? "skeleton skeleton-shimmer" : "skeleton";
 
   return (
-    <article className="relative flex gap-3 rounded-xl border border-neutral-200 bg-white p-3 shadow-resting">
+    <article className="relative flex gap-3 rounded-xl border border-border bg-card p-3 shadow-resting">
       {/* Image */}
       <div className="relative h-[144px] w-[80px] shrink-0">
         <div
@@ -129,7 +129,7 @@ function WineCard({ state, wine }: { state: WineListState; wine?: Wine }) {
             showReal ? "opacity-0" : "opacity-100"
           }`}
         >
-          <BottleSilhouette className="h-[80%] w-auto text-neutral-300" />
+          <BottleSilhouette className="h-[80%] w-auto text-ink-subtle" />
         </div>
         {wine && (
           <div
@@ -173,13 +173,13 @@ function WineCard({ state, wine }: { state: WineListState; wine?: Wine }) {
               showReal ? "opacity-100" : "opacity-0"
             }`}
           >
-            <h3 className="truncate font-display text-base font-semibold leading-tight text-neutral-900">
+            <h3 className="truncate font-display text-base font-semibold leading-tight text-ink">
               {wine.name}
             </h3>
-            <p className="mt-0.5 truncate text-sm text-neutral-500">
+            <p className="mt-0.5 truncate text-sm text-ink-muted">
               {wine.winery}
             </p>
-            <p className="mt-0.5 text-xs text-neutral-400">
+            <p className="mt-0.5 text-xs text-ink-subtle">
               {wine.country} · {wine.region}
             </p>
             <div className="mt-1.5 flex flex-wrap gap-1">
@@ -189,7 +189,7 @@ function WineCard({ state, wine }: { state: WineListState; wine?: Wine }) {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: idx * 0.1, duration: 0.2 }}
-                  className="rounded bg-neutral-100 px-1.5 py-0.5 text-[10px] text-neutral-600 transition-colors hover:bg-neutral-200"
+                  className="rounded bg-card-muted px-1.5 py-0.5 text-[10px] text-ink-muted transition-colors hover:bg-border"
                 >
                   {char}
                 </motion.span>
@@ -205,7 +205,7 @@ function WineCard({ state, wine }: { state: WineListState; wine?: Wine }) {
                   aria-label={`Ver ${wine.name} no Vivino`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="inline-flex items-center gap-0.5 rounded px-1.5 py-0.5 text-xs font-medium text-neutral-400 transition-all hover:bg-primary-50 hover:text-primary-600"
+                  className="inline-flex items-center gap-0.5 rounded px-1.5 py-0.5 text-xs font-medium text-ink-subtle transition-all hover:bg-primary-50 hover:text-primary-600"
                 >
                   <ExternalLink className="h-3 w-3" aria-hidden="true" />
                   Vivino
@@ -217,7 +217,7 @@ function WineCard({ state, wine }: { state: WineListState; wine?: Wine }) {
                   aria-label={`Comprar ${wine.name}`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="inline-flex items-center gap-0.5 rounded px-1.5 py-0.5 text-xs font-medium text-neutral-400 transition-all hover:bg-secondary-50 hover:text-secondary-600"
+                  className="inline-flex items-center gap-0.5 rounded px-1.5 py-0.5 text-xs font-medium text-ink-subtle transition-all hover:bg-secondary-50 hover:text-secondary-600"
                 >
                   <ShoppingCart className="h-3 w-3" aria-hidden="true" />
                   Comprar
@@ -337,10 +337,10 @@ function EmptyState({ visible }: { visible: boolean }) {
       <div className="mb-4 rounded-full bg-primary-50 p-4">
         <EmptyGlassIllustration className="h-16 w-16 text-primary-400" />
       </div>
-      <h3 className="font-display text-lg font-semibold text-neutral-700">
+      <h3 className="font-display text-lg font-semibold text-ink">
         Pronto para harmonizar?
       </h3>
-      <p className="mt-1 max-w-xs text-center text-sm text-neutral-500">
+      <p className="mt-1 max-w-xs text-center text-sm text-ink-muted">
         Descreva sua refeição e descubra os vinhos perfeitos para acompanhar.
       </p>
     </div>
@@ -357,10 +357,10 @@ function NotFoundState({ visible }: { visible: boolean }) {
       <div className="mb-4 rounded-full bg-secondary-50 p-4">
         <QuestionPlateIllustration className="h-16 w-16 text-secondary-500" />
       </div>
-      <h3 className="font-display text-lg font-semibold text-neutral-700">
+      <h3 className="font-display text-lg font-semibold text-ink">
         Não reconheci esse prato
       </h3>
-      <p className="mt-1 max-w-xs text-center text-sm text-neutral-500">
+      <p className="mt-1 max-w-xs text-center text-sm text-ink-muted">
         Tente descrever de outra forma. Ex: "sushi de salmão" ou "churrasco de picanha".
       </p>
     </div>
@@ -377,10 +377,10 @@ function ErrorState({ visible }: { visible: boolean }) {
       <div className="mb-4 rounded-full bg-red-50 p-4">
         <AlertIllustration className="h-16 w-16 text-red-400" />
       </div>
-      <h3 className="font-display text-lg font-semibold text-neutral-700">
+      <h3 className="font-display text-lg font-semibold text-ink">
         Algo deu errado
       </h3>
-      <p className="mt-1 max-w-xs text-center text-sm text-neutral-500">
+      <p className="mt-1 max-w-xs text-center text-sm text-ink-muted">
         Não foi possível conectar ao servidor. Tente novamente em instantes.
       </p>
     </div>

@@ -1,14 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Wine, UtensilsCrossed, Beef, Fish } from "lucide-react";
-import Image from "next/image";
+import { Beef, Fish, UtensilsCrossed, Wine } from "lucide-react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { fetchRecommendations, pingBackend, type ApiResponse, type WineListState, type Wine as WineType } from "../lib/wines";
+import { SettingsModal } from "./SettingsModal";
 import { Button } from "./ui/Button";
 import { Card } from "./ui/Card";
 import { WineListSkeleton } from "./WineListSkeleton";
-import { fetchRecommendations, pingBackend, type Wine as WineType, type WineListState, type ApiResponse } from "../lib/wines";
 
 // Dynamic import do WineList para reduzir bundle inicial
 const WineList = dynamic(() => import("./WineList").then(mod => ({ default: mod.WineList })), {
@@ -168,13 +169,16 @@ export default function Harmonizer() {
           className="h-12 w-auto sm:h-14"
         />
         <div className="flex flex-col">
-          <h1 className="font-display text-2xl font-bold leading-none tracking-tight text-neutral-900 sm:text-3xl">
+          <h1 className="font-display text-2xl font-bold leading-none tracking-tight text-ink sm:text-3xl">
             <span className="text-primary-600">Harmoniz</span>
             <span className="text-secondary-500">AI</span>
           </h1>
-          <p className="mt-1 text-sm text-neutral-600">
+          <p className="mt-1 text-sm text-ink-muted">
             Descubra o vinho ideal para sua refeição
           </p>
+        </div>
+        <div className="ml-auto flex items-center gap-2">
+          <SettingsModal />
         </div>
       </motion.header>
 
@@ -196,7 +200,7 @@ export default function Harmonizer() {
           >
             <label
               htmlFor="dish"
-              className="block text-base font-medium text-neutral-700"
+              className="block text-base font-medium text-[var(--color-ink-muted)]"
             >
               O que você vai comer hoje?
             </label>
@@ -217,7 +221,7 @@ export default function Harmonizer() {
                 onFocus={() => setIsInputFocused(true)}
                 onBlur={() => setIsInputFocused(false)}
                 placeholder={displayPlaceholder || "Descreva seu prato..."}
-                className="w-full resize-none border-0 bg-transparent text-base leading-relaxed text-neutral-900 outline-none placeholder:text-neutral-400"
+                className="w-full resize-none border-0 bg-transparent text-base leading-relaxed text-[var(--color-ink)] outline-none placeholder:text-[var(--color-ink-subtle)]"
               />
 
               <div className="mt-3 flex items-center justify-between gap-2">
@@ -225,7 +229,7 @@ export default function Harmonizer() {
                   <button
                     type="button"
                     onClick={handleReset}
-                    className="text-sm text-neutral-500 transition hover:text-primary-600"
+                    className="text-sm text-[var(--color-ink-subtle)] transition hover:text-primary-600"
                   >
                     Nova busca
                   </button>
@@ -257,11 +261,11 @@ export default function Harmonizer() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                   </svg>
                 </span>
-                <span className="text-sm text-neutral-700">
+                <span className="text-sm text-[var(--color-ink-muted)]">
                   <span className="font-medium">Prato reconhecido:</span>{" "}
                   <span className="font-semibold text-secondary-700">{recognizedDish.display_name}</span>
                 </span>
-                <span className="ml-auto text-xs text-neutral-500">
+                <span className="ml-auto text-xs text-[var(--color-ink-subtle)]">
                   ({(recognizedDish.confidence * 100).toFixed(0)}%)
                 </span>
               </motion.div>
@@ -279,7 +283,7 @@ export default function Harmonizer() {
                     transition={{ delay: 0.2 + index * 0.05 }}
                     type="button"
                     onClick={() => pickExample(ex.label)}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-sm text-neutral-600 transition hover:border-primary-300 hover:text-primary-600"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-card)] px-3 py-1.5 text-sm text-[var(--color-ink-muted)] transition hover:border-primary-300 hover:text-primary-600"
                   >
                     <Icon className="h-3.5 w-3.5" />
                     {ex.label}

@@ -12,7 +12,7 @@ ticket: HARMONIZAI-ROADMAP-001
 **Visão:** Evoluir o HarmonizAI com melhorias de performance, experiência do usuário e funcionalidades avançadas.  
 **Data de Criação:** 2026-04-29  
 **Última Atualização:** 2026-04-30  
-**Status:** Phases 1-3 ✅ Concluídas | Phase 4 ⬜ Próxima
+**Status:** Phases 1-5 ✅ Concluídas | Phase 6 ⬜ Próxima
 
 ---
 
@@ -253,40 +253,95 @@ ticket: HARMONIZAI-ROADMAP-001
 
 ---
 
-## ⬜ Phase 5: Dark Mode
+## ✅ Phase 5: Dark Mode (Concluída)
 
-**Objetivo:** Toggle de tema escuro/claro com persistência  
+**Objetivo:** Toggle de tema escuro/claro com persistência + Settings UI  
 **Tempo Estimado:** 6-8 horas  
-**Dependências:** Phases 1-4  
-**Status:** ⬜ **PENDENTE**
+**Concluída em:** 2026-05-01  
+**Testada:** ✅ Manual OK  
+**Status:** ✅ **CONCLUÍDA & VALIDADA**
 
-### T5.1 — Tokens CSS Dark Mode
+### 🎯 Resultados
+
+| Tarefa | Implementação | Status |
+|--------|---------------|--------|
+| T5.1 | Tokens CSS Dark Mode | ✅ |
+| T5.2 | Theme Provider | ✅ |
+| T5.3 | ~~Theme Toggle~~ | ✅ Removido (consolidado no T5.5) |
+| T5.4 | Componentes Adaptados | ✅ |
+| T5.5 | Settings Modal | ✅ Componente único de tema |
+
+### T5.1 — Tokens CSS Dark Mode ✅
 **Arquivo:** `web/app/globals.css`
 
-- [ ] Cores dark mode em oklch()
-- [ ] CSS variables com data-theme
-- [ ] Burgundy adaptado para dark
+- [x] Cores dark mode em oklch()
+- [x] CSS variables com `data-theme` attribute
+- [x] Semantic aliases invertidas (surface, card, ink)
+- [x] `prefers-color-scheme` como fallback
+- [x] Transições suaves entre temas
 
-### T5.2 — Theme Provider
-**Arquivos:** `web/app/components/ThemeProvider.tsx`, `web/app/layout.tsx`
+**Implementação:** Override das variáveis via `[data-theme="dark"]` e `@media (prefers-color-scheme: dark)`
 
-- [ ] Context React (light | dark | system)
-- [ ] Persistência localStorage
-- [ ] Detecção prefers-color-scheme
+### T5.2 — Theme Provider ✅
+**Arquivo:** `web/app/components/ThemeProvider.tsx`
 
-### T5.3 — Theme Toggle
-**Arquivos:** `web/app/components/ThemeToggle.tsx`, `Harmonizer.tsx`
+- [x] Context React (`light` | `dark` | `system`)
+- [x] Persistência localStorage (`harmonizai-theme`)
+- [x] Detecção `prefers-color-scheme` para `system`
+- [x] SSR-safe (hydration sem flash)
+- [x] Atualização automática do atributo `data-theme`
 
-- [ ] Ícone sol/lua no header
-- [ ] Animação suave
-- [ ] Respeitar preferência salva
+### T5.3 — Theme Toggle (Removido)
+**Arquivo:** ~~`web/app/components/ThemeToggle.tsx`~~
 
-### T5.4 — Componentes Adaptados
-**Arquivos:** `web/app/components/ui/*.tsx`, `WineList.tsx`
+- [x] ~~Botão com ícone sol/lua~~ → **Removido**
+- [x] ~~Animação Framer Motion~~ → **Movido para T5.5**
+- [x] ~~Integração com `useTheme()`~~ → **Consolidado no SettingsModal**
+- [x] ~~Tooltip indicando modo atual~~ → **Replaced by T5.5**
 
-- [ ] Todos usando CSS variables
-- [ ] Cards, badges, botões no dark
-- [ ] SVGs ajustados (filtro de cor)
+**Nota:** ThemeToggle foi removido. Funcionalidade consolidada no SettingsModal (T5.5) que oferece UI mais completa com opções Light/Dark/System.
+
+### T5.4 — Componentes Adaptados ✅
+**Arquivos:** `web/app/components/ui/Card.tsx`, `WineList.tsx`, `Harmonizer.tsx`
+
+- [x] Card: `bg-card`, `border-border`, `shadow-hover`
+- [x] WineList: `text-ink`, `text-ink-muted`, `text-ink-subtle`
+- [x] Badges: `bg-card-muted`, hover states
+- [x] Skeleton shimmer ajustado para dark
+- [x] **Input textarea:** `text-[var(--color-ink)]`, `placeholder:text-[var(--color-ink-subtle)]`
+- [x] **Label input:** `text-[var(--color-ink-muted)]`
+- [x] **Botão Nova busca:** `text-[var(--color-ink-subtle)]`
+- [x] **Prato reconhecido:** `text-[var(--color-ink-muted)]` e `text-[var(--color-ink-subtle)]`
+- [x] **Example tags:** `border-[var(--color-border)]`, `bg-[var(--color-card)]`, `text-[var(--color-ink-muted)]`
+
+### T5.5 — Settings Modal (Componente Único de Tema) ✅
+**Arquivo:** `web/app/components/SettingsModal.tsx`
+
+- [x] **Trigger button:** Ícone engrenagem funcional
+- [x] **Dropdown:** Opções Light / Dark / System
+- [x] **Check visual:** Indica tema ativo
+- [x] **Persistência:** localStorage automático
+- [x] **Animações:** Framer Motion (scale + fade)
+- [x] **Interações:** Click outside, Escape key
+- [x] **Acessibilidade:** aria-label, aria-expanded, aria-pressed
+- [x] **Header:** "Modo [x] ativo" dinâmico
+- [x] **Footer:** Hint "Preferência salva automaticamente"
+
+**Design Pattern:** Componente único substitui ThemeToggle anterior, oferecendo UI mais completa e explícita.
+
+### ✅ Testes Realizados
+
+| Teste | Resultado |
+|-------|-----------|
+| Build produção | ✅ Passou |
+| Toggle funciona | ✅ Alterna light/dark |
+| Settings Modal | ✅ Abre/fecha corretamente |
+| Seleção tema | ✅ Light/Dark/System funcionam |
+| Persistência | ✅ Salva no localStorage |
+| System preference | ✅ Respeita prefers-color-scheme |
+| Transições | ✅ Animações suaves |
+| Componentes | ✅ Todos adaptados corretamente |
+| Acessibilidade | ✅ aria-labels, keyboard navigation |
 
 ---
 
@@ -358,6 +413,56 @@ ticket: HARMONIZAI-ROADMAP-001
 
 ---
 
+---
+
+## ⬜ Phase 8: Internacionalização (i18n)
+
+**Objetivo:** Suporte a múltiplos idiomas (PT-BR, EN, ES)  
+**Tempo Estimado:** 6-8 horas  
+**Dependências:** Phases 1-5  
+**Status:** ⬜ **PENDENTE**
+
+### T8.1 — Setup i18n
+**Arquivos:** `web/app/i18n/config.ts`, `next.config.ts`
+
+- [ ] Biblioteca: `next-intl` ou `react-i18next`
+- [ ] Configuração de locales: `pt-BR`, `en`, `es`
+- [ ] Default locale: `pt-BR`
+- [ ] Estratégia de routing: subpath (`/en`, `/es`) ou domain
+
+### T8.2 — Traduções JSON
+**Arquivos:** `web/messages/pt-BR.json`, `en.json`, `es.json`
+
+- [ ] Strings da UI: títulos, labels, botões
+- [ ] Mensagens de erro
+- [ ] Placeholders e exemplos
+- [ ] Meta descriptions
+
+### T8.3 — Language Provider
+**Arquivos:** `web/app/components/LanguageProvider.tsx`, `SettingsModal.tsx`
+
+- [ ] Context para locale atual
+- [ ] Persistência localStorage
+- [ ] Detecção browser locale
+- [ ] Toggle/select no SettingsModal
+
+### T8.4 — Componentes Traduzidos
+**Arquivos:** `Harmonizer.tsx`, `WineList.tsx`, `InstallPrompt.tsx`
+
+- [ ] Uso de `useTranslations()` hook
+- [ ] Formatação de números (scores, preços)
+- [ ] RTL support (se necessário)
+- [ ] Wine names em inglês/español no dataset
+
+### T8.5 — Backend i18n (Opcional)
+**Arquivos:** `src/api/app.py`
+
+- [ ] Accept-Language header support
+- [ ] Respostas de erro traduzidas
+- [ ] Dish recognition em múltiplos idiomas
+
+---
+
 ## ✅ Critérios de Aceitação Gerais
 
 ### Para todas as fases:
@@ -374,17 +479,18 @@ ticket: HARMONIZAI-ROADMAP-001
 | 2 | Code splitting funcionando, FCP otimizado |
 | 3 | Animações 60fps, sem drop frames |
 | 4 | PWA instalável, offline funciona |
-| 5 | Dark mode com persistência |
+| 5 | Dark mode com persistência + Settings UI |
 | 6 | Aprovado NVDA/VoiceOver |
 | 7 | Dataset 2x maior, fuzzy matching |
+| 8 | i18n PT-BR/EN/ES funcionando |
 
 ---
 
 ## 📝 Notas Finais
 
-- **Ordem recomendada:** 1 → 2 → 3 → 4 → 5 → 6 → 7
-- **Fases 1-2:** Concluídas ✅
-- **Fases 3-5:** Frontend-only
-- **Fases 6-7:** Envolvem backend
+- **Ordem recomendada:** 1 → 2 → 3 → 4 → 5 → 5.5 → 6 → 7 → 8
+- **Fases 1-5:** Concluídas ✅
+- **Fases 5.5, 8:** Frontend-only (Settings, i18n)
+- **Fases 6-7:** Envolvem backend/testing
 
-**Próxima ação:** Executar Phase 5 (Dark Mode)
+**Próxima ação:** Executar Phase 5.5 (Settings Modal) ou Phase 6 (Acessibilidade)

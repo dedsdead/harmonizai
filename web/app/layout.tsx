@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { InstallPrompt } from "./components/InstallPrompt";
 import { ServiceWorkerRegister } from "./components/ServiceWorkerRegister";
+import { ThemeProvider } from "./components/ThemeProvider";
 import "./globals.css";
 
 // Optimized fonts with next/font (automatic font-display: swap)
@@ -87,12 +88,14 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen bg-neutral-50">
-        <ServiceWorkerRegister />
-        <InstallPrompt />
-        <div className="mx-auto max-w-7xl">
-          {children}
-        </div>
+      <body className="min-h-screen">
+        <ThemeProvider>
+          <ServiceWorkerRegister />
+          <InstallPrompt />
+          <div className="mx-auto max-w-7xl">
+            {children}
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
