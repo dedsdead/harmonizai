@@ -106,17 +106,9 @@ function StateCaption({
   icon: React.ReactNode;
   text: string;
 }) {
-  // Only render live region when visible to prevent NVDA from announcing hidden states
+  // Return null when not visible - only render active status to DOM
   if (!visible) {
-    return (
-      <div
-        aria-hidden="true"
-        className="absolute flex items-center gap-2 text-sm text-ink-muted pointer-events-none opacity-0"
-      >
-        {icon}
-        <span>{text}</span>
-      </div>
-    );
+    return null;
   }
 
   return (
@@ -220,7 +212,7 @@ function WineCard({ state, wine }: { state: WineListState; wine?: Wine }) {
                 <motion.a
                   href={wine.vivino_url}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   aria-label={`Ver ${wine.name} no Vivino`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -232,7 +224,7 @@ function WineCard({ state, wine }: { state: WineListState; wine?: Wine }) {
                 <motion.a
                   href={wine.shop_url}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   aria-label={`Comprar ${wine.name}`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}

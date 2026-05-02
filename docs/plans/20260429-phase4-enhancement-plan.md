@@ -411,6 +411,28 @@ ticket: HARMONIZAI-ROADMAP-001
 
 ---
 
+### T6.5.1 — Correções Code Review (Acessibilidade) ✅
+**Data:** 2026-05-02
+
+**Feedback da ferramenta de review identificou:**
+1. Links externos sem `noopener` (risco de reverse-tabnabbing)
+2. `role="form"` inválido (não é um role ARIA válido)
+3. Skip link apontando para `<div>` em vez de `<main>`
+4. Link/Button nesting inválido (dois elementos interativos)
+5. Live region não utilizada no DOM
+6. StateCaption renderizando texto oculto no DOM
+
+**Correções aplicadas:**
+- [x] `WineList.tsx`: `rel="noopener noreferrer"` em links Vivino/Comprar
+- [x] `Harmonizer.tsx`: Removido `role="form"` inválido (form nativo é suficiente)
+- [x] `Harmonizer.tsx`: `id="main-content"` + `tabIndex={-1}` no `<main>` para skip link
+- [x] `Harmonizer.tsx`: Footer usa `next/link` (navegação cliente)
+- [x] `layout.tsx`: Removida live region `#sr-announcements` não utilizada
+- [x] `acessibilidade/page.tsx`: Link estilizado como botão (sem nesting inválido)
+- [x] `WineList.tsx`: `StateCaption` retorna `null` quando invisível
+
+---
+
 ### T6.6 — Declaração de Acessibilidade (eMAG) ✅
 **Requisito eMAG:** Declaração de conformidade e canais de comunicação
 

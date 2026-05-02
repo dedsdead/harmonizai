@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Beef, Fish, UtensilsCrossed, Wine } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { fetchRecommendations, pingBackend, type ApiResponse, type WineListState, type Wine as WineType } from "../lib/wines";
 import { SettingsModal } from "./SettingsModal";
@@ -184,7 +185,7 @@ export default function Harmonizer() {
       </motion.header>
 
       {/* Main Content - Main landmark */}
-      <main role="main" className="mt-4 flex flex-1 gap-4 overflow-hidden lg:mt-6 lg:flex-row lg:gap-8">
+      <main id="main-content" role="main" tabIndex={-1} className="mt-4 flex flex-1 gap-4 overflow-hidden lg:mt-6 lg:flex-row lg:gap-8">
         {/* Input Section */}
         <motion.section
           aria-label="Buscar harmonização de vinho"
@@ -194,7 +195,6 @@ export default function Harmonizer() {
           className="flex shrink-0 flex-col justify-start lg:w-1/3 lg:items-end"
         >
           <form
-            role="form"
             aria-label="Formulário de busca de harmonização"
             onSubmit={(e) => {
               e.preventDefault();
@@ -312,12 +312,12 @@ export default function Harmonizer() {
 
       {/* Footer with Accessibility Link */}
       <footer className="shrink-0 py-3 text-center text-xs text-[var(--color-ink-subtle)]">
-        <a
+        <Link
           href="/acessibilidade"
           className="hover:text-[var(--color-ink-muted)] hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
         >
           Declaração de Acessibilidade
-        </a>
+        </Link>
         <span className="mx-2">·</span>
         <span>HarmonizAI 2026</span>
       </footer>

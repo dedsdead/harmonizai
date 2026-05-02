@@ -1,6 +1,5 @@
 import { AlertCircle, ArrowLeft, CheckCircle2, ExternalLink } from "lucide-react";
 import Link from "next/link";
-import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 
 export const metadata = {
@@ -14,11 +13,12 @@ export default function AcessibilidadePage() {
       <div className="mx-auto max-w-3xl">
         {/* Header */}
         <div className="mb-8">
-          <Link href="/">
-            <Button variant="ghost" size="sm" className="-ml-2 mb-4">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Voltar ao HarmonizAI
-            </Button>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-ink-muted transition-colors hover:bg-primary-50 hover:text-primary-600 -ml-2 mb-4"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Voltar ao HarmonizAI
           </Link>
           <h1 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
             Declaração de Acessibilidade
@@ -132,10 +132,10 @@ export default function AcessibilidadePage() {
               </p>
               <div className="mt-4 flex flex-wrap gap-3">
                 <a
-                  href="mailto:acessibilidade@harmonizai.com.br"
+                  href="mailto:dedstads@gmail.com"
                   className="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 hover:underline"
                 >
-                  acessibilidade@harmonizai.com.br
+                  dedstads@gmail.com
                   <ExternalLink className="h-4 w-4" />
                 </a>
               </div>

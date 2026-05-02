@@ -102,8 +102,6 @@ export default function RootLayout({
           <div id="main-content" className="mx-auto max-w-7xl">
             {children}
           </div>
-          {/* Live region for screen reader announcements */}
-          <div id="sr-announcements" aria-live="polite" aria-atomic="true" className="sr-only" />
         </ThemeProvider>
       </body>
     </html>

@@ -11,8 +11,16 @@
 > 
 > **Correções NVDA (2026-05-02):**
 > - Renderização condicional de EmptyState, NotFoundState, ErrorState — Componentes só existem no DOM quando visíveis
-> - Adicionado `role="form"` explícito ao formulário para detecção pelo atalho `F`
+> - StateCaption retorna `null` quando invisível (não renderiza no DOM)
 > - Removido `role="search"` da section para evitar conflito com formulário
+> 
+> **Correções Code Review (2026-05-02):**
+> - `WineList.tsx`: `rel="noopener noreferrer"` nos links externos (segurança)
+> - `Harmonizer.tsx`: Removido `role="form"` inválido (form nativo já é semanticamente correto)
+> - `Harmonizer.tsx`: `id="main-content"` + `tabIndex={-1}` no `<main>` para skip link funcionar
+> - `Harmonizer.tsx`: Footer usa `next/link` para navegação cliente
+> - `layout.tsx`: Removida live region `#sr-announcements` não utilizada
+> - `acessibilidade/page.tsx`: Corrigido nesting de Link/Button (agora Link com classes de botão)
 > 
 > **Features Futuras (Backlog):**
 > - ⬜ VLibras — Widget de tradução para Libras (requer integração externa gov.br)
