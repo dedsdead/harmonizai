@@ -23,8 +23,12 @@ export function WineList({ state, wines = [], slowLoading = false }: WineListPro
   const showError = state === "error";
 
   return (
-    <div className="flex h-full w-full flex-col gap-3">
-      {/* Status Bar */}
+    <section
+      role="region"
+      aria-label="Resultados das harmonizações"
+      className="flex h-full w-full flex-col gap-3"
+    >
+      {/* Status Bar - Announced via aria-live */}
       <div className="relative flex h-6 shrink-0 items-center">
         <StateCaption
           visible={showEmpty}
@@ -64,14 +68,14 @@ export function WineList({ state, wines = [], slowLoading = false }: WineListPro
 
       {/* Content Area */}
       <div className="relative flex-1 overflow-hidden">
-        {/* Empty State */}
-        <EmptyState visible={showEmpty} />
+        {/* Empty State - Only render when visible */}
+        {showEmpty && <EmptyState />}
 
-        {/* Not Found State */}
-        <NotFoundState visible={showNotFound} />
+        {/* Not Found State - Only render when visible */}
+        {showNotFound && <NotFoundState />}
 
-        {/* Error State */}
-        <ErrorState visible={showError} />
+        {/* Error State - Only render when visible */}
+        {showError && <ErrorState />}
 
         {/* Cards Grid - 2 columns on desktop */}
         {(showLoading || showSlowLoading || showPopulated) && (
@@ -89,7 +93,7 @@ export function WineList({ state, wines = [], slowLoading = false }: WineListPro
           </div>
         )}
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -102,12 +106,24 @@ function StateCaption({
   icon: React.ReactNode;
   text: string;
 }) {
+  // Only render live region when visible to prevent NVDA from announcing hidden states
+  if (!visible) {
+    return (
+      <div
+        aria-hidden="true"
+        className="absolute flex items-center gap-2 text-sm text-ink-muted pointer-events-none opacity-0"
+      >
+        {icon}
+        <span>{text}</span>
+      </div>
+    );
+  }
+
   return (
     <div
-      aria-hidden={!visible}
-      className={`absolute flex items-center gap-2 text-sm text-ink-muted transition-opacity duration-300 ${
-        visible ? "opacity-100" : "pointer-events-none opacity-0"
-      }`}
+      role="status"
+      aria-live="polite"
+      className="absolute flex items-center gap-2 text-sm text-ink-muted opacity-100"
     >
       {icon}
       <span>{text}</span>
@@ -121,7 +137,10 @@ function WineCard({ state, wine }: { state: WineListState; wine?: Wine }) {
   const skeletonClass = shimmer ? "skeleton skeleton-shimmer" : "skeleton";
 
   return (
-    <article className="relative flex gap-3 rounded-xl border border-border bg-card p-3 shadow-resting">
+    <article
+      aria-label={wine ? `${wine.name}, nota ${wine.score.total_score.toFixed(0)}` : "Carregando harmonização"}
+      className="relative flex gap-3 rounded-xl border border-border bg-card p-3 shadow-resting"
+    >
       {/* Image */}
       <div className="relative h-[144px] w-[80px] shrink-0">
         <div
@@ -327,12 +346,10 @@ function Spinner({ className }: { className?: string }) {
 }
 
 // State Illustrations
-function EmptyState({ visible }: { visible: boolean }) {
+function EmptyState() {
   return (
     <div
-      className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-300 ${
-        visible ? "opacity-100" : "pointer-events-none opacity-0"
-      }`}
+      className="absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-300 opacity-100"
     >
       <div className="mb-4 rounded-full bg-primary-50 p-4">
         <EmptyGlassIllustration className="h-16 w-16 text-primary-400" />
@@ -347,12 +364,10 @@ function EmptyState({ visible }: { visible: boolean }) {
   );
 }
 
-function NotFoundState({ visible }: { visible: boolean }) {
+function NotFoundState() {
   return (
     <div
-      className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-300 ${
-        visible ? "opacity-100" : "pointer-events-none opacity-0"
-      }`}
+      className="absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-300 opacity-100"
     >
       <div className="mb-4 rounded-full bg-secondary-50 p-4">
         <QuestionPlateIllustration className="h-16 w-16 text-secondary-500" />
@@ -367,12 +382,10 @@ function NotFoundState({ visible }: { visible: boolean }) {
   );
 }
 
-function ErrorState({ visible }: { visible: boolean }) {
+function ErrorState() {
   return (
     <div
-      className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-300 ${
-        visible ? "opacity-100" : "pointer-events-none opacity-0"
-      }`}
+      className="absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-300 opacity-100"
     >
       <div className="mb-4 rounded-full bg-red-50 p-4">
         <AlertIllustration className="h-16 w-16 text-red-400" />

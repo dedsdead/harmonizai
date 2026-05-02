@@ -11,8 +11,8 @@ ticket: HARMONIZAI-ROADMAP-001
 
 **Visão:** Evoluir o HarmonizAI com melhorias de performance, experiência do usuário e funcionalidades avançadas.  
 **Data de Criação:** 2026-04-29  
-**Última Atualização:** 2026-04-30  
-**Status:** Phases 1-5 ✅ Concluídas | Phase 6 ⬜ Próxima
+**Última Atualização:** 2026-05-01  
+**Status:** Phases 1-6 ✅ Concluídas | Phase 7 ⬜ Próxima
 
 ---
 
@@ -347,35 +347,136 @@ ticket: HARMONIZAI-ROADMAP-001
 
 ---
 
-## ⬜ Phase 6: Acessibilidade Avançada
+## ✅ Phase 6: Acessibilidade Avançada (Concluída)
 
 **Objetivo:** Garantir acessibilidade completa para leitores de tela  
 **Tempo Estimado:** 4-6 horas  
+**Concluída em:** 2026-05-01  
 **Dependências:** Phases 1-5  
-**Status:** ⬜ **PENDENTE**
+**Status:** ✅ **CONCLUÍDA & VALIDADA**
 
-### T6.1 — Testes NVDA (Windows)
-- [ ] Navegação por headings
-- [ ] Labels de formulários
-- [ ] Cards anunciados (nome + score)
-- [ ] Botões com labels descritivas
+### T6.1 — NVDA Support ✅
+**Implementação:** Landmarks, headings, ARIA labels, correção de aria-live
 
-### T6.2 — Testes VoiceOver (macOS)
-- [ ] Rotor mostrando headings/links
-- [ ] Landmark regions identificadas
-- [ ] Status updates via aria-live
+- [x] Navegação por headings (`<h1>` presente)
+- [x] Labels de formulários (`aria-labelledby` apontando para label com `id`)
+- [x] Navegação por formulários (`aria-label` no `<form>` para atalho "F")
+- [x] Cards anunciados (`aria-label` com nome + nota)
+- [x] Botões com labels descritivos (`aria-label` em todos)
+- [x] **Correção:** `aria-live` apenas quando visível (evita leitura de textos ocultos)
+- [x] **Correção:** `aria-hidden="true"` em elementos invisíveis ("acordando servidor", etc.)
 
-### T6.3 — Keyboard Navigation
-- [ ] Tab order lógico
-- [ ] Escape fecha modais
-- [ ] Enter/Space ativa botões
-- [ ] Skip link
+### T6.2 — VoiceOver Support ✅
+**Implementação:** Rotor landmarks, live regions condicionais
 
-### T6.4 — Documentação A11y
+- [x] Rotor mostrando headings/links
+- [x] Landmark regions (`role="banner"`, `main`, `search`, `region`)
+- [x] Status updates (`aria-live="polite"` apenas quando visível)
+
+### T6.3 — Keyboard Navigation ✅
+**Implementação:** Skip link, focus management, formulário identificado
+
+- [x] Skip link (primeiro elemento focável, "Pular para conteúdo")
+- [x] Tab order lógico (input → botões → links)
+- [x] Escape fecha modais (SettingsModal dropdown)
+- [x] Enter/Space ativa botões (comportamento padrão)
+- [x] Focus indicators (`focus-visible:ring-2` em todos elementos)
+- [x] Formulário com `aria-label` (reconhecido pelo atalho "F" do NVDA)
+
+### T6.4 — Documentação A11y ✅
 **Arquivo:** `docs/runbooks/ACCESSIBILITY.md`
-- [ ] Checklist testes manuais
-- [ ] Padrões de código
-- [ ] Links WCAG
+
+- [x] Checklist testes manuais (NVDA + VoiceOver)
+- [x] Padrões de código (exemplos de skip link, status, cards)
+- [x] Links WCAG e ARIA Authoring Practices
+- [x] Validação build + TypeScript + ESLint
+
+### T6.5 — Correções NVDA (Pós-Teste) ✅
+**Data:** 2026-05-02
+
+**Problemas identificados nos testes manuais:**
+1. NVDA anunciava "Não reconheci esse prato" e "Algo deu errado" no carregamento inicial
+2. Atalho `F` não detectava o formulário (conflito com `role="search"`)
+
+**Correções aplicadas:**
+- [x] `WineList.tsx`: Renderização condicional dos estados (só renderiza no DOM quando visíveis)
+- [x] `Harmonizer.tsx`: Adicionado `role="form"` explícito ao formulário
+- [x] `Harmonizer.tsx`: Removido `role="search"` da `<section>` pai
+- [x] `ACCESSIBILITY.md`: Atualizado com notas das correções
+
+**Arquivos modificados:**
+- `web/app/components/WineList.tsx` — renderização condicional dos estados
+- `web/app/components/Harmonizer.tsx` — `role="form"` + removido `role="search"`
+- `docs/runbooks/ACCESSIBILITY.md` — documentação das correções
+
+---
+
+### T6.6 — Declaração de Acessibilidade (eMAG) ✅
+**Requisito eMAG:** Declaração de conformidade e canais de comunicação
+
+**Implementação:**
+- [x] Criada página `/acessibilidade` com declaração formal
+- [x] Link no footer do Harmonizer para acessar a declaração
+- [x] Status de conformidade com eMAG 3.1 e WCAG 2.1 AA
+- [x] Lista de recursos de acessibilidade disponíveis
+- [x] Canal de comunicação para feedback (e-mail)
+- [x] Referências às normas eMAG e WCAG
+
+**Arquivos criados/modificados:**
+- `web/app/acessibilidade/page.tsx` — Página de declaração de acessibilidade
+- `web/app/components/Harmonizer.tsx` — Footer com link para acessibilidade
+
+---
+
+### T6.7 — Preparação para Access Monitor Plus (eMAG) ✅
+**Requisito eMAG:** Validar conformidade formal via ferramenta oficial
+
+**Instruções para validação:**
+1. Acesse: https://accessmonitor.acessibilidade.gov.pt/
+2. Insira a URL de produção do HarmonizAI
+3. Execute a avaliação automática
+4. Verifique os resultados WCAG 2.1
+
+**Checklist pré-validação:**
+- [x] Estrutura semântica HTML5 (header, main, section, footer)
+- [x] Atributos ARIA em elementos interativos
+- [x] Textos alternativos em imagens
+- [x] Contraste de cores verificado
+- [x] Navegação por teclado funcional
+- [x] Skip link implementado
+
+---
+
+### T6.8 — Testes Manuais Realizados ✅
+**Data:** 2026-05-02
+
+**Resultados NVDA:**
+- ✅ Navegação por headings (`H`) — Funcionando
+- ✅ Navegação por formulários (`F`) — Funcionando após foco via Skip Link ou Tab
+- ✅ Labels de formulários — Anunciadas corretamente
+- ✅ Botões — Descrições claras via `aria-label`
+- ✅ Estados ocultos — NÃO lidos no carregamento (renderização condicional)
+- ✅ Skip link — Primeiro elemento focável, funcional
+
+**Nota importante:** Atalho `F` do NVDA requer que o foco esteja dentro do conteúdo principal. 
+Comportamento padrão: Tab até "Pular para conteúdo principal" → Enter → conteúdo recebe foco → `F` detecta formulário.
+
+---
+
+### 🔄 Backlog — Features Futuras
+
+#### T6.F1 — VLibras (eMAG Recomendação)
+**Status:** ⬜ **BACKLOG** — Não prioritário
+
+Widget de tradução para Libras (Língua Brasileira de Sinais).
+
+**Requisitos:**
+- Integração com VLibras do governo federal (https://vlibras.gov.br/)
+- Script JavaScript oficial do gov.br
+- Botão flutuante de acesso
+- Requer avaliação de performance (carregamento externo)
+
+**Prioridade:** Baixa — Acessibilidade atual já cobre leitores de tela e navegação por teclado.
 
 ---
 
@@ -489,8 +590,8 @@ ticket: HARMONIZAI-ROADMAP-001
 ## 📝 Notas Finais
 
 - **Ordem recomendada:** 1 → 2 → 3 → 4 → 5 → 5.5 → 6 → 7 → 8
-- **Fases 1-5:** Concluídas ✅
+- **Fases 1-6:** Concluídas ✅
 - **Fases 5.5, 8:** Frontend-only (Settings, i18n)
-- **Fases 6-7:** Envolvem backend/testing
+- **Fases 7:** Backend/ML (fuzzy matching, dataset)
 
-**Próxima ação:** Executar Phase 5.5 (Settings Modal) ou Phase 6 (Acessibilidade)
+**Próxima ação:** Executar Phase 7 (Algoritmo & Dataset) ou Phase 8 (Internacionalização)

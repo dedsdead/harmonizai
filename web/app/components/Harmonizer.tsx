@@ -153,8 +153,9 @@ export default function Harmonizer() {
 
   return (
     <div className="flex h-screen flex-col overflow-hidden px-4 py-4 sm:px-6 lg:px-8">
-      {/* Header */}
+      {/* Header - Banner landmark */}
       <motion.header
+        role="banner"
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
@@ -173,7 +174,7 @@ export default function Harmonizer() {
             <span className="text-primary-600">Harmoniz</span>
             <span className="text-secondary-500">AI</span>
           </h1>
-          <p className="mt-1 text-sm text-ink-muted">
+          <p className="mt-1 text-sm text-ink-muted" id="app-description">
             Descubra o vinho ideal para sua refeição
           </p>
         </div>
@@ -182,16 +183,19 @@ export default function Harmonizer() {
         </div>
       </motion.header>
 
-      {/* Main Content */}
-      <main className="mt-4 flex flex-1 gap-4 overflow-hidden lg:mt-6 lg:flex-row lg:gap-8">
+      {/* Main Content - Main landmark */}
+      <main role="main" className="mt-4 flex flex-1 gap-4 overflow-hidden lg:mt-6 lg:flex-row lg:gap-8">
         {/* Input Section */}
         <motion.section
+          aria-label="Buscar harmonização de vinho"
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3, delay: 0.1, ease: "easeOut" }}
           className="flex shrink-0 flex-col justify-start lg:w-1/3 lg:items-end"
         >
           <form
+            role="form"
+            aria-label="Formulário de busca de harmonização"
             onSubmit={(e) => {
               e.preventDefault();
               runSearch();
@@ -199,6 +203,7 @@ export default function Harmonizer() {
             className="w-full max-w-lg space-y-4"
           >
             <label
+              id="dish-label"
               htmlFor="dish"
               className="block text-base font-medium text-[var(--color-ink-muted)]"
             >
@@ -220,9 +225,14 @@ export default function Harmonizer() {
                 }}
                 onFocus={() => setIsInputFocused(true)}
                 onBlur={() => setIsInputFocused(false)}
+                aria-labelledby="dish-label"
+                aria-describedby="dish-hint"
                 placeholder={displayPlaceholder || "Descreva seu prato..."}
                 className="w-full resize-none border-0 bg-transparent text-base leading-relaxed text-[var(--color-ink)] outline-none placeholder:text-[var(--color-ink-subtle)]"
               />
+              <span id="dish-hint" className="sr-only">
+                Digite o nome do prato ou escolha uma sugestão abaixo. Pressione Enter para buscar.
+              </span>
 
               <div className="mt-3 flex items-center justify-between gap-2">
                 {isPopulated ? (
@@ -299,6 +309,18 @@ export default function Harmonizer() {
           <WineList state={listState} wines={wines} slowLoading={slowLoading} />
         </aside>
       </main>
+
+      {/* Footer with Accessibility Link */}
+      <footer className="shrink-0 py-3 text-center text-xs text-[var(--color-ink-subtle)]">
+        <a
+          href="/acessibilidade"
+          className="hover:text-[var(--color-ink-muted)] hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+        >
+          Declaração de Acessibilidade
+        </a>
+        <span className="mx-2">·</span>
+        <span>HarmonizAI 2026</span>
+      </footer>
     </div>
   );
 }

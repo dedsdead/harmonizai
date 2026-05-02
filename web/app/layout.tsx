@@ -90,11 +90,20 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen">
         <ThemeProvider>
+          {/* Skip Link for keyboard navigation */}
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-primary-600 focus:px-4 focus:py-2 focus:text-white focus:outline-none"
+          >
+            Pular para conteúdo principal
+          </a>
           <ServiceWorkerRegister />
           <InstallPrompt />
-          <div className="mx-auto max-w-7xl">
+          <div id="main-content" className="mx-auto max-w-7xl">
             {children}
           </div>
+          {/* Live region for screen reader announcements */}
+          <div id="sr-announcements" aria-live="polite" aria-atomic="true" className="sr-only" />
         </ThemeProvider>
       </body>
     </html>
