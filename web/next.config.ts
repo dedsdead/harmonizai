@@ -1,6 +1,12 @@
 import type { NextConfig } from "next";
 
+// Detecta se é deploy para GitHub Pages
+const isGitHubPages = process.env.GITHUB_PAGES === "true";
+
 const nextConfig: NextConfig = {
+  // Base path para GitHub Pages (repo em username.github.io/repo-name)
+  basePath: isGitHubPages ? "/harmonizai" : "",
+  assetPrefix: isGitHubPages ? "/harmonizai" : undefined,
   // Ensure trailing slashes for consistent routing
   trailingSlash: true,
   // Image optimization settings
