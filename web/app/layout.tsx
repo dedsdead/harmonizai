@@ -61,12 +61,7 @@ export default function RootLayout({
         
         {/* Preconnect para APIs e recursos externos */}
         {/* Removido: preconnect para fonts (não necessário com next/font) */}
-        <link rel="preconnect" href="https://harmonizai-api.up.railway.app" />
-        <link rel="dns-prefetch" href="https://harmonizai-api.up.railway.app" />
-        
-        {/* Prefetch para warm-up da API connection */}
-        <link rel="prefetch" href="https://harmonizai-api.up.railway.app/health" as="fetch" crossOrigin="anonymous" />
-        
+        {/* Preconnect/dns-prefetch para API backend — removido durante migração Railway→Render */}
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
