@@ -1,6 +1,6 @@
 # Data Requirements Quality Checklist — Railway → Render Migration
 
-- [ ] CHK001 Is it clearly specified which data is persistent (git-tracked `harmonizai.db`) vs. ephemeral (runtime `harmonization_requests` table)? [Clarity]
+- [x] CHK001 Is it clearly specified which data is persistent (git-tracked `harmonizai.db`) vs. ephemeral (runtime `harmonization_requests` table)? [Clarity]
 - [ ] CHK002 Is there a mechanism to detect if `harmonizai.db` becomes corrupted or is missing from the deployed artifact on Render? [Completeness]
 - [ ] CHK003 Is the exact size and composition of `harmonizai.db` documented to ensure it fits within Render's free tier storage limits? [Measurability]
 - [ ] CHK004 Is it specified whether the `harmonizai.db` tracked in git could contain stale data (e.g., old wine ratings) and how to regenerate it? [Gap]

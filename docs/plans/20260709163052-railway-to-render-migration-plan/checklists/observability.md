@@ -1,6 +1,6 @@
 # Observability Requirements Quality Checklist — Railway → Render Migration
 
-- [ ] CHK001 Is the `/health` endpoint response the ONLY health check, or are there additional probes (readiness, liveness) that Render requires? [Completeness]
+- [x] CHK001 Is the `/health` endpoint response the ONLY health check, or are there additional probes (readiness, liveness) that Render requires? [Completeness]
 - [ ] CHK002 Is the keepalive monitoring (GitHub Actions every 10 min) specified with its exact success criteria and failure alerting? [Clarity]
 - [ ] CHK003 Is there any logging aggregation specified for Render (e.g., Render dashboard logs vs. external log sink)? [Completeness]
 - [ ] CHK004 Is there a documented procedure to detect a silent failure (backend process running but returning errors) during the 24-hour verification period? [Gap]

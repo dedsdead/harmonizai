@@ -1,6 +1,6 @@
 # Security Requirements Quality Checklist — Railway → Render Migration
 
-- [ ] CHK001 Is it explicitly stated which environment variables are secrets vs. configuration (e.g., `FRONTEND_URL` is config, `BACKEND_URL` GitHub secret is a secret)? [Clarity]
+- [x] CHK001 Is it explicitly stated which environment variables are secrets vs. configuration (e.g., `FRONTEND_URL` is config, `BACKEND_URL` GitHub secret is a secret)? [Clarity]
 - [ ] CHK002 Is there a procedure for rotating or updating the GitHub `BACKEND_URL` secret that prevents exposing it in logs or CI output? [Completeness]
 - [ ] CHK003 Is the CORS `allow_credentials=True` + wildcard fallback risk fully documented, including the exact browser behavior when `FRONTEND_URL` is unset? [Gap]
 - [ ] CHK004 Is there a verification step to confirm `FRONTEND_URL` is set on Render before the service becomes publicly accessible? [Completeness]

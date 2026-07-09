@@ -14,7 +14,7 @@ harmonizai/
 
 | Environment | Backend | Frontend | Notes |
 |-------------|---------|----------|-------|
-| Production | Render (`harmonizai-api.onrender.com`) | Vercel (`harmonizai.vercel.app`) | Current in migration from Railway |
+| Production | Render (`harmonizai-api.onrender.com`) | Vercel (`harmonizai.vercel.app`) | — |
 | Local dev | `localhost:8000` (uvicorn) | `localhost:3000` (next dev) | Backend required for frontend |
 
 ## Core Services and Dependencies

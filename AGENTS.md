@@ -34,7 +34,7 @@ Plain Python scripts (not pytest). Run from repo root:
 - **Next.js 16** — has breaking changes vs training data. Read `node_modules/next/dist/docs/` before writing code. See also `web/AGENTS.md` (referenced by `web/CLAUDE.md`).
 - Static export (`output: "export"`), also supports GitHub Pages.
 - PWA features (manifest, service worker) — `app/layout.tsx`.
-- `NEXT_PUBLIC_API_URL` env var (default: Railway URL, override for local dev).
+- `NEXT_PUBLIC_API_URL` env var (default: `https://harmonizai-api.onrender.com`, override for local dev).
 - Commands (run from `web/`): `npm run dev`, `npm run build`, `npm run lint`, `npm run analyze`.
 - Bundle analyzer: `npm run analyze` — requires `@next/bundle-analyzer` (install manually if needed).
 - Package manager: npm. pnpm lockfile is gitignored.

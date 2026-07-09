@@ -168,7 +168,7 @@ The `repo:` field is omitted — it's optional when syncing via the Render Dashb
 
 | Phase | Name | Depends On | Status |
 |-------|------|------------|--------|
-| 1 | Local config changes | None | ⬜ Pending |
+| 1 | Local config changes | None | ✅ Completed |
 | 2 | Deploy backend to Render | Phase 1 | ⬜ Pending |
 | 3 | Frontend cutover and verification | Phase 2 | ⬜ Pending |
 | 4 | Decommission Railway | Phase 3 | ⬜ Pending |
@@ -177,13 +177,13 @@ The `repo:` field is omitted — it's optional when syncing via the Render Dashb
 
 ### Phase 1: Local config changes
 
-**Status:** ⬜ Pending
+**Status:** ✅ Completed
 **Objective:** Prepare the repository with `render.yaml`, cleaned frontend URLs, and updated docs. No Render access required.
 **Dependencies:** None
 
 **Tasks:**
 
-- [ ] T101 Create `render.yaml` at repo root (`render.yaml`)
+- [x] T101 Create `render.yaml` at repo root (`render.yaml`)
   - Write the blueprint file with exact content:
     ```yaml
     services:
@@ -199,38 +199,38 @@ The `repo:` field is omitted — it's optional when syncing via the Render Dashb
     ```
   - `repo:` is intentionally omitted — Render Dashboard auto-detects it during Blueprint sync
 
-- [ ] T102 [P] Validate `render.yaml` syntax
+- [x] T102 [P] Validate `render.yaml` syntax
   - Run: `python -c "import yaml; yaml.safe_load(open('render.yaml'))"`
   - Expected: no exceptions. If YAML library is unavailable, use any available YAML validator
   - Confirm `runtime: python` (not `env: python` — newer Render format)
   - Confirm `startCommand` uses `$PORT` (not hardcoded port)
 
-- [ ] T103 Remove hardcoded Railway URLs from `web/app/layout.tsx`
+- [x] T103 Remove hardcoded Railway URLs from `web/app/layout.tsx`
   - In file `web/app/layout.tsx`, remove lines 64-68 (the 3 `<link>` tags):
     - `<link rel="preconnect" href="https://harmonizai-api.up.railway.app" />`
     - `<link rel="dns-prefetch" href="https://harmonizai-api.up.railway.app" />`
     - `<link rel="prefetch" href="https://harmonizai-api.up.railway.app/health" as="fetch" crossOrigin="anonymous" />`
-  - Keep the surrounding comment blocks (`{/* Preconnect para APIs... */}` and `{/* Prefetch para warm-up... */}`) — they can stay or be updated later
+    - Keep the surrounding comment blocks (`{/* Preconnect para APIs... */}` and `{/* Prefetch para warm-up... */}`) — they can stay or be updated later
 
-- [ ] T104 [P] Verify Railway URLs are fully removed from `web/app/layout.tsx`
+- [x] T104 [P] Verify Railway URLs are fully removed from `web/app/layout.tsx`
   - Run: `Select-String -Path "web/app/layout.tsx" -Pattern "railway" -CaseSensitive:$false` (PowerShell) or `grep -i railway web/app/layout.tsx` (Unix)
   - Expected: no matches. If matches remain, remove them.
 
-- [ ] T105 Update `.env.example` with Render URLs (`.env.example`)
+- [x] T105 Update `.env.example` with Render URLs (`.env.example`)
   - Change the `FRONTEND_URL` header comment from `# Backend (Railway)` to `# Backend (Render)`
   - Update `NEXT_PUBLIC_API_URL` example value from `https://sua-api.up.railway.app` to `https://harmonizai-api.onrender.com` (or the actual Render subdomain)
 
-- [ ] T106 Update `AGENTS.md` deploy section (`AGENTS.md`)
+- [x] T106 Update `AGENTS.md` deploy section (`AGENTS.md`)
   - Locate the Deploy section (lines 42-47)
   - Change line 44 from `- **Backend:** Railway...` to `- **Backend:** Render (\`Procfile\` → ...)`
   - Keep the rest of the section unchanged (Frontend, env vars, GitHub Pages lines are still accurate)
 
-- [ ] T107 [P] Verify `harmonizai.db` is tracked in git (pre-deploy safety check)
+- [x] T107 [P] Verify `harmonizai.db` is tracked in git (pre-deploy safety check)
   - Run: `git ls-files "data/processed/harmonizai.db"`
   - Expected: path is returned. If not tracked, add it: `git add -f data/processed/harmonizai.db`
   - If the file doesn't exist locally, run: `python -m src.data.merge_raw; python -m src.data.normalize` to build it
 
-- [ ] T108 Commit and push all Phase 1 changes
+- [x] T108 Commit and push all Phase 1 changes
   - Stage changed files: `git add render.yaml web/app/layout.tsx .env.example AGENTS.md`
   - If T107 required adding `harmonizai.db`, stage that too
   - Commit: `git commit -m "[HARMONIZAI] 🔧 chore(deploy): prepare Render migration config"`
@@ -353,14 +353,14 @@ The `repo:` field is omitted — it's optional when syncing via the Render Dashb
 ## ✅ Master Checklist
 
 ### Phase 1: Local config changes
-- [ ] T101 Create `render.yaml` at repo root
-- [ ] T102 [P] Validate `render.yaml` syntax
-- [ ] T103 Remove Railway URLs from `web/app/layout.tsx`
-- [ ] T104 [P] Verify Railway URLs fully removed via grep
-- [ ] T105 Update `.env.example` with Render URLs
-- [ ] T106 Update `AGENTS.md` deploy section
-- [ ] T107 [P] Verify `harmonizai.db` tracked in git
-- [ ] T108 Commit and push all Phase 1 changes
+- [x] T101 Create `render.yaml` at repo root
+- [x] T102 [P] Validate `render.yaml` syntax
+- [x] T103 Remove Railway URLs from `web/app/layout.tsx`
+- [x] T104 [P] Verify Railway URLs fully removed via grep
+- [x] T105 Update `.env.example` with Render URLs
+- [x] T106 Update `AGENTS.md` deploy section
+- [x] T107 [P] Verify `harmonizai.db` tracked in git
+- [x] T108 Commit and push all Phase 1 changes
 
 ### Phase 2: Deploy backend to Render
 - [ ] T201 Create Render Web Service (Blueprint or manual)
@@ -385,3 +385,25 @@ The `repo:` field is omitted — it's optional when syncing via the Render Dashb
 ## Clarifications
 
 No clarifications file needed — all decisions were resolved during the brainstorm.
+
+---
+
+## Execution Log
+
+### 2026-07-09 — Phase 1: Railway-to-Render migration prep (commit `b8ec688`)
+
+Phase 1 executed 2026-07-09. All 8 tasks completed. Commit `b8ec688` pushed to `origin/main`.
+
+**Tasks completed (fully):** T101, T102, T103, T104, T105, T106, T107, T108
+**Tasks completed (partially):** None
+**Tasks not executed in this run:** T201–T403 (Phases 2–4 pending)
+
+**Unplanned changes:** None
+
+**Implementation deviations:** None
+
+**Files changed:**
+- `render.yaml` — created
+- `web/app/layout.tsx` — removed Railway `<link>` tags
+- `.env.example` — updated Render URL and comment
+- `AGENTS.md` — updated deploy section

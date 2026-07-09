@@ -6,7 +6,7 @@
 - [ ] CHK004 Is the error state for "backend unreachable" specified beyond "the UI shows a clear error state"? (e.g., exact message text, retry button, fallback content) [Clarity]
 - [ ] CHK005 Is the UX during the window between Render deploy and frontend rebuild specified? (Old frontend → dead Railway URL = broken app for all users) [Gap]
 - [ ] CHK006 Are there acceptance criteria for the post-migration first-load experience (cache, preconnect, performance)? [Completeness]
-- [ ] CHK007 Is the removal of Railway preconnect/dns-prefetch `<link>` tags assessed for any performance regression on the frontend? [Measurability]
+- [x] CHK007 Is the removal of Railway preconnect/dns-prefetch `<link>` tags assessed for any performance regression on the frontend? [Measurability]
 - [ ] CHK008 Is there any specification for mobile vs. desktop UX differences during the migration? (e.g., timeout behavior on slow mobile connections) [Edge Case]
 - [ ] CHK009 Is the rollback UX specified — what does the user see if Railway must be reactivated? [Coverage]
 - [ ] CHK010 Is there a documented success criteria for "user notices no difference" — e.g., identical layout, identical load time within X%? [Measurability]
